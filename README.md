@@ -62,9 +62,7 @@
     i created a file called gitcp where i configured a script to execute git push pull etc like
 
 #!/usr/bin/env bash
-
 tmpstmp="$(date +'%d-%B-%y %I:%M%p')"
-
 git pull &&
 git add --all &&
 git commit -m "$* ${tmpstmp}" &&
