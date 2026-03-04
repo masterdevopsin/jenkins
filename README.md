@@ -74,5 +74,7 @@ echo "pushed : $* $tmpstmp"
     git add .
     git commit -m "message"
     git push -u origin main
+21. from 2nd time u can simply execute " gitcp commit-message"
+22. Once all changes are pushed to github go to jenkins dashboard --- create a pipeline job --- choose pipeline script from scm option --- enter the scm details --- choose the correct branch --- enter the correct jenkinsfile name in the section called script path --- apply ---save
 
 
