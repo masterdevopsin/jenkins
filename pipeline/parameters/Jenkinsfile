@@ -2,8 +2,8 @@
                 agent { label 'slave-1' }
 
                 parameters {
-                    string(name: 'NAME', default: '', description: 'Please enter ypur name')
-                    booleanParam(name: 'SKIP_TEST', default: '', description: 'to skip test ennv and deploy directly ')
+                    string(name: 'NAME', defaultValue: '', description: 'Please enter ypur name')
+                    booleanParam(name: 'SKIP_TEST', defaultValue: '', description: 'to skip test ennv and deploy directly ')
                     choice(name: 'BRANCH', choices: ['main','master','prod','four'], description: '')
                 }
                 stages {
