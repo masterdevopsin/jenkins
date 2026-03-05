@@ -13,6 +13,11 @@
                          echo "BOOLEAN PARAMETER ${params.SKIP_TEST}"
                          echo "BRANCH CHOOSEN : ${params.BRANCH}"
                          
+                         sh'''
+                            echo "STRING NAME: ${NAME}"
+                            echo "BOOLEAN PARAMETER ${SKIP_TEST}"
+                            echo "BRANCH CHOOSEN : ${BRANCH}"
+                         '''
 
                         }
                     }
