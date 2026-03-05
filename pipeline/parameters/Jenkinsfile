@@ -3,26 +3,20 @@
 
                 parameters {
                     string(name: 'NAME', default: '', description: 'Please enter ypur name')
-                    booleanParam(name: '', default: '', description: '')
-                    choice(name: 'BRANCH', choices: ['main','master','three','four'], description: '')
+                    booleanParam(name: 'SKIP_TEST', default: '', description: 'to skip test ennv and deploy directly ')
+                    choice(name: 'BRANCH', choices: ['main','master','prod','four'], description: '')
                 }
                 stages {
                     stage('stage 1') {
                         steps {
-                            sh 'sleep 5'
-                            echo "this is stage 1"
+                         echo "STRING NAME: ${params.NAME}"
+                         echo "BOOLEAN PARAMETER ${params.SKIP_TEST}"
+                         echo "BRANCH CHOOSEN : ${params.BRANCH}"
+                         
+
                         }
                     }
-                    stage('stage 2') {
-                        steps {
-                            sh '''
-                                #!/bin/bash
-                                pwd
-                                ls -lrt
-                                sleep 5
-                            '''
-                        }
-                    }
+                    
                 }
 
         }
