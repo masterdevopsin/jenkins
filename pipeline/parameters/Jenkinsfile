@@ -2,9 +2,9 @@
                 agent { label 'slave-1' }
 
                 parameters {
-                    string(name: '', default: '', description: '')
+                    string(name: 'NAME', default: '', description: 'Please enter ypur name')
                     booleanParam(name: '', default: '', description: '')
-                    choice(name: '', choices: ['one','two','three','four'], description: '')
+                    choice(name: 'BRANCH', choices: ['main','master','three','four'], description: '')
                 }
                 stages {
                     stage('stage 1') {
