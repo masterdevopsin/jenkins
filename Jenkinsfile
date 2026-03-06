@@ -1,3 +1,4 @@
+
         pipeline  {
                 agent { label 'slave-1' }
 
@@ -7,30 +8,37 @@
                 }
                 stages {
                     stage('stage 1') {
-                        environment {
-                            STAGE = 'stage1'
-                        }
                         steps {
-                         echo "DOCKER_USERNAME: ${env.DOCKER_USERNAME}"
-                         echo "AWS_ACCESS_KEY: ${env.AWS_ACCESS_KEY}"
-                         echo "STAGE: ${env.STAGE}"
-                         
-                         sh'''
-                           env
-                         '''
-
+                         echo "this is stage1 "
+                          sh 'sleep 5'
                         }
                     }
-                    stage('stage 2') {
+                    stage('PARALLEL ') {
+                        parallel{
+                            stage ('WINDOWS TEST '){
+                                steps {
+                                echo "this is windows "
+                                sh ' sleep 5'
+                                }
+                            }
+                            stage ('MAC TEST '){
+                                steps {
+                                echo "this is mac "
+                                sh ' sleep 5'
+                                }
+                            }
+                            stage ('LINUX TEST '){
+                                steps {
+                                echo "this is linux "
+                                sh ' sleep 5'
+                                }
+                            }
+                         }
+                    }
+                    stage('Final') {
                         steps {
-                         echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
-                         echo "AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}"
-                         echo "STAGE: ${env.STAGE}"
-                         
-                         sh'''
-                           env
-                         '''
-
+                         echo "this is final stage "
+                          sh 'sleep 5'
                         }
                     }
                     
