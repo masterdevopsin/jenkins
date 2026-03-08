@@ -9,13 +9,13 @@
                 stages {
                     stage('stage 1') {
                         steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                         echo "this is stage1 "
-                          sh '''
-                            sleep 5
-                            exit 1
-                          '''
-                        }
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                                 echo "this is stage1 "
+                                 sh '''
+                                    sleep 5
+                                    exit 1
+                                 '''
+                            }
                         }
                     }
                     stage('PARALLEL ') {
