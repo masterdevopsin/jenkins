@@ -8,7 +8,25 @@ pipeline {
 
     stages {
 
-        stage('stage 1') {
+        stage('stage 1_a') {
+            steps {
+                script {
+                    try{ 
+                        echo "this is stage1"
+                        sh '''
+                             sleep 5
+                             exit 1
+                        '''
+                    }
+                    catch(err){
+                        echo " here is the error"
+                        currentBuild.result = 'SUCCESS'
+                        currentStage.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        stage('stage 1_b') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     echo "this is stage1"
