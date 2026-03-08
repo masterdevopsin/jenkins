@@ -11,8 +11,8 @@
                         steps {
                          echo "this is stage1 "
                           sh '''
-                          sleep 5
-                          exit 1
+                            sleep 5
+                            exit 1
                           '''
                         }
                     }
