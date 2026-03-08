@@ -18,7 +18,7 @@ pipeline {
                              exit 1
                         '''
                     }
-                    catch(err){
+                    catch(err) {
                         echo " here is the error"
                         currentBuild.result = 'SUCCESS'
                         //currentStage.result = 'FAILURE'
@@ -73,4 +73,4 @@ pipeline {
         }
 
     }
-}
+} 
