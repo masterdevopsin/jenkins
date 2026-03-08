@@ -18,7 +18,7 @@ pipeline {
                              exit 1
                         '''
                     }
-                    catch(err){
+                    catch(err) {
                         echo " here is the error"
                         currentBuild.result = 'SUCCESS'
                         currentStage.result = 'FAILURE'
@@ -28,13 +28,13 @@ pipeline {
         }
         stage('stage 1_b') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                /atchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     echo "this is stage1"
                     sh '''
                         sleep 5
                         exit 1
                     '''
-                }
+            }
             }
         }
 
