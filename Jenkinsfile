@@ -1,33 +1,31 @@
 pipeline {
     agent any
 
-    environment{
+    environment {
         CURRENT_ENV = 'prod'
     }
 
     parameters {
-                    booleanParam(name: 'DEPLOY', defaultValue: '', description: 'to deploy directly ')
-                }
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'to deploy directly')
+    }
 
     stages {
+
         stage('stage 1 when branch') {
             when {
-                branch 'main'  
+                branch 'main'
             }
             steps {
-                    echo "this is when for branch"
-                    sh '''
-                        sleep 5
-                        exit 1
-                    '''
+                echo "this is when for branch"
+                sh '''
+                sleep 5
+                '''
             }
         }
 
-        
-
         stage('When environment') {
             when {
-                environment name: CURRENT_ENV, value: 'prod'
+                environment name: 'CURRENT_ENV', value: 'prod'
             }
             steps {
                 echo "this is when for env"
@@ -37,54 +35,51 @@ pipeline {
 
         stage('When parameter') {
             when {
-                expression  {param.DEPLOY == true}
+                expression { params.DEPLOY == true }
             }
             steps {
-                echo "this is when for env"
+                echo "this is when for parameter"
                 sh 'sleep 5'
             }
         }
 
-        stage('When parameter and branch ') {
+        stage('When parameter and branch') {
             when {
-                allof{
+                allOf {
                     branch 'main'
-                    expression  {param.DEPLOY == true}
+                    expression { params.DEPLOY == true }
                 }
             }
             steps {
-                echo "this is when for env"
+                echo "branch AND parameter true"
                 sh 'sleep 5'
             }
         }
 
-        stage('When parameter or branch ') {
+        stage('When parameter or branch') {
             when {
-                anyof{
+                anyOf {
                     branch 'main'
-                    expression  {param.DEPLOY == true}
+                    expression { params.DEPLOY == true }
                 }
             }
             steps {
-                echo "this is when for env"
+                echo "branch OR parameter"
                 sh 'sleep 5'
             }
         }
 
-        stage('not parameter and branch ') {
+        stage('Not main branch') {
             when {
-                not{
+                not {
                     branch 'main'
-                    expression  {param.DEPLOY == true}
                 }
             }
             steps {
-                echo "this is when for env"
+                echo "this runs when branch is NOT main"
                 sh 'sleep 5'
             }
         }
-
-
 
     }
-} 
+}
