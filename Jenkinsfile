@@ -5,8 +5,6 @@ pipeline {
         booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy manually')
     }
 
-
-
     stages {
 
         stage('CHECKOUT') {
@@ -20,14 +18,13 @@ pipeline {
                     ]]
                 ])
 
-
-                echo "Current Branch: ${env.GIT_BRANCH_NAME}"
+                echo "Current Branch: ${env.GIT_BRANCH}"
             }
         }
 
         stage('Stage 1 When Branch') {
             when {
-                expression { env.GIT_BRANCH_NAME == 'origin/main' }
+                expression { env.GIT_BRANCH == 'origin/main' }
             }
             steps {
                 echo "This runs when branch is main"
@@ -38,7 +35,7 @@ pipeline {
         stage('When parameter AND branch') {
             when {
                 allOf {
-                    expression { env.GIT_BRANCH_NAME == 'main' }
+                    expression { env.GIT_BRANCH == 'origin/main' }
                     expression { params.DEPLOY == true }
                 }
             }
@@ -51,7 +48,7 @@ pipeline {
         stage('When parameter OR branch') {
             when {
                 anyOf {
-                    expression { env.GIT_BRANCH_NAME == 'main' }
+                    expression { env.GIT_BRANCH == 'origin/main' }
                     expression { params.DEPLOY == true }
                 }
             }
@@ -63,7 +60,7 @@ pipeline {
 
         stage('Not main branch') {
             when {
-                expression { env.GIT_BRANCH_NAME != 'main' }
+                expression { env.GIT_BRANCH != 'origin/main' }
             }
             steps {
                 echo "This runs when branch is NOT main"
