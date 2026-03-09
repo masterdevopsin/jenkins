@@ -1,20 +1,24 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy manually')
+    }
+
     stages {
 
-      stage('CHECKOUT') {
-    steps {
-        checkout([$class: 'GitSCM',
-            branches: [[name: '*/main']],
-            extensions: [],
-            userRemoteConfigs: [[
-                credentialsId: 'jenkins-git',
-                url: 'https://github.com/masterdevopsin/jenkins.git'
-            ]]
-        ])
-    }
-}
+        stage('CHECKOUT') {
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        credentialsId: 'jenkins-git',
+                        url: 'https://github.com/masterdevopsin/jenkins.git'
+                    ]]
+                ])
+            }
+        }
 
         stage('stage 1 when branch') {
             when {
@@ -22,9 +26,7 @@ pipeline {
             }
             steps {
                 echo "this is when for branch"
-                sh '''
-                sleep 5
-                '''
+                sh 'sleep 5'
             }
         }
 
