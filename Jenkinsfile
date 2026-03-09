@@ -5,6 +5,10 @@ pipeline {
         booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy manually')
     }
 
+    environment {
+        GIT_BRANCH_NAME = ''
+    }
+
     stages {
 
         stage('CHECKOUT') {
@@ -17,53 +21,54 @@ pipeline {
                         url: 'https://github.com/masterdevopsin/jenkins.git'
                     ]]
                 ])
+
+
+                echo "Current Branch: ${env.GIT_BRANCH_NAME}"
             }
         }
 
-        stage('stage 1 when branch') {
+        stage('Stage 1 When Branch') {
             when {
-                branch 'main'
+                expression { env.GIT_BRANCH_NAME == 'main' }
             }
             steps {
-                echo "this is when for branch"
+                echo "This runs when branch is main"
                 sh 'sleep 5'
             }
         }
 
-        stage('When parameter and branch') {
+        stage('When parameter AND branch') {
             when {
                 allOf {
-                    branch 'main'
+                    expression { env.GIT_BRANCH_NAME == 'main' }
                     expression { params.DEPLOY == true }
                 }
             }
             steps {
-                echo "branch AND parameter true"
+                echo "Branch main AND parameter true"
                 sh 'sleep 5'
             }
         }
 
-        stage('When parameter or branch') {
+        stage('When parameter OR branch') {
             when {
                 anyOf {
-                    branch 'main'
+                    expression { env.GIT_BRANCH_NAME == 'main' }
                     expression { params.DEPLOY == true }
                 }
             }
             steps {
-                echo "branch OR parameter"
+                echo "Branch main OR parameter true"
                 sh 'sleep 5'
             }
         }
 
         stage('Not main branch') {
             when {
-                not {
-                    branch 'main'
-                }
+                expression { env.GIT_BRANCH_NAME != 'main' }
             }
             steps {
-                echo "this runs when branch is NOT main"
+                echo "This runs when branch is NOT main"
                 sh 'sleep 5'
             }
         }
