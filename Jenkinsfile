@@ -1,15 +1,17 @@
 pipeline {
     agent any
 
-    environment {
-        CURRENT_ENV = 'prod'
-    }
-
-    parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'to deploy directly')
-    }
-
     stages {
+
+        stage ('CHECKOUT'){
+                steps {
+                    checkout scmGit( [$class: 'GitSCM',
+                                    branches: [[name: '*/main']], 
+                                    extensions: [], 
+                                    userRemoteConfigs: [[credentialsId: 'jenkins-git', 
+                                    url: 'https://github.com/masterdevopsin/jenkins.git']]])
+                }
+        }
 
         stage('stage 1 when branch') {
             when {
@@ -20,26 +22,6 @@ pipeline {
                 sh '''
                 sleep 5
                 '''
-            }
-        }
-
-        stage('When environment') {
-            when {
-                environment name: 'CURRENT_ENV', value: 'prod'
-            }
-            steps {
-                echo "this is when for env"
-                sh 'sleep 5'
-            }
-        }
-
-        stage('When parameter') {
-            when {
-                expression { params.DEPLOY == true }
-            }
-            steps {
-                echo "this is when for parameter"
-                sh 'sleep 5'
             }
         }
 
