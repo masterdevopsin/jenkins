@@ -5,9 +5,7 @@ pipeline {
         booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy manually')
     }
 
-    environment {
-        GIT_BRANCH_NAME = ''
-    }
+
 
     stages {
 
