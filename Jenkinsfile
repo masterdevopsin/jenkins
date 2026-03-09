@@ -3,15 +3,18 @@ pipeline {
 
     stages {
 
-        stage ('CHECKOUT'){
-                steps {
-                    checkout scmGit( [$class: 'GitSCM',
-                                    branches: [[name: '*/main']], 
-                                    extensions: [], 
-                                    userRemoteConfigs: [[credentialsId: 'jenkins-git', 
-                                    url: 'https://github.com/masterdevopsin/jenkins.git']]])
-                }
-        }
+      stage('CHECKOUT') {
+    steps {
+        checkout([$class: 'GitSCM',
+            branches: [[name: '*/main']],
+            extensions: [],
+            userRemoteConfigs: [[
+                credentialsId: 'jenkins-git',
+                url: 'https://github.com/masterdevopsin/jenkins.git'
+            ]]
+        ])
+    }
+}
 
         stage('stage 1 when branch') {
             when {
