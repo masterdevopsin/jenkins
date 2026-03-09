@@ -29,7 +29,7 @@ pipeline {
 
         stage('Stage 1 When Branch') {
             when {
-                expression { env.GIT_BRANCH_NAME == 'main' }
+                expression { env.GIT_BRANCH_NAME == 'origin/main' }
             }
             steps {
                 echo "This runs when branch is main"
