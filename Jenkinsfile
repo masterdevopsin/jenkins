@@ -2,71 +2,68 @@ pipeline {
     agent any
 
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy manually')
+        booleanParam(name: 'DEPLOY', description: 'Want to deploy to Production')
+    }
+    
+    environment {
+        CURRENT_ENV = 'prod'
     }
 
     stages {
-
-        stage('CHECKOUT') {
+        stage('CEHCKOUT_REPOA') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    extensions: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'jenkins-git',
-                        url: 'https://github.com/masterdevopsin/jenkins.git'
-                    ]]
+                checkout ([ $class: 'GitSCM',
+                    branches: [[name: '*/main']], 
+                    extensions: [], 
+                    userRemoteConfigs: [[url: 'https://github.com/masterdevopsin/jenkins.git' 
+                     ]]
                 ])
-
-                echo "Current Branch: ${env.GIT_BRANCH}"
+               
+                sh '''
+                    echo GIT_BRANCH: $GIT_BRANCH
+                    echo BRANCH_NAME: $BRANCH_NAME
+                '''
             }
         }
 
-        stage('Stage 1 When Branch') {
+        stage('STAGE1 When branch main') {
             when {
-                expression { env.GIT_BRANCH == 'origin/main' }
-            }
-            steps {
-                echo "This runs when branch is main"
-                sh 'sleep 5'
-            }
-        }
-
-        stage('When parameter AND branch') {
-            when {
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    expression { params.DEPLOY == true }
+                expression {
+                    return env.GIT_BRANCH == 'origin/main'
                 }
             }
             steps {
-                echo "Branch main AND parameter true"
-                sh 'sleep 5'
+                echo "This is stage1 running"
+                sh ''' 
+                    pwd
+                    ls -lrt
+                    sleep 5
+                '''
             }
         }
 
-        stage('When parameter OR branch') {
+        stage('when environment') {
             when {
-                anyOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    expression { params.DEPLOY == true }
-                }
+                environment name: 'CURRENT_ENV', value: 'prod'
             }
             steps {
-                echo "Branch main OR parameter true"
-                sh 'sleep 5'
+                echo "This is FINAL running"
+                sh '''
+                    pwd
+                    ls -lrt
+                    sleep 5
+                '''
             }
         }
 
-        stage('Not main branch') {
+        stage('when parameter') {
             when {
-                expression { env.GIT_BRANCH != 'origin/main' }
+                expression { params.DEPLOY == true }
             }
             steps {
-                echo "This runs when branch is NOT main"
+                echo "This is FINAL running"
                 sh 'sleep 5'
             }
         }
-
     }
 }
