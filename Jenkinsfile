@@ -1,8 +1,18 @@
 pipeline {
     agent any
 
-    parameters {
-        booleanParam(name: 'DEPLOY', description: 'Want to deploy to Production')
+    triggers{
+        cron('H/5 * * * *')
+    }
+
+    options{
+
+        disableConcurrentBuilds(abortPrevious: true) 
+        buildDiscarder(logRotator(numToKeepStr: '1'))
+        disableResume()
+        retry(3)
+        timeout(time: 3, unit: 'MINUTES')
+
     }
     
     environment {
