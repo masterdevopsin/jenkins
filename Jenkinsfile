@@ -9,7 +9,7 @@ pipeline {
         }
 
         stage (' VALIDATE'){
-            staeps {
+            steps {
                 sh 'mvn validate'
                 echo "validate success"
             }
