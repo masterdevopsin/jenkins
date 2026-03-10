@@ -1,79 +1,10 @@
 pipeline {
     agent any
 
-    triggers{
-        cron('H/5 * * * *')
-    }
-
-    options{
-
-        disableConcurrentBuilds(abortPrevious: true) 
-        buildDiscarder(logRotator(numToKeepStr: '1'))
-        disableResume()
-        retry(3)
-        timeout(time: 3, unit: 'MINUTES')
-
-    }
-    
-    environment {
-        CURRENT_ENV = 'prod'
-    }
-
     stages {
-        stage('CEHCKOUT_REPOA') {
-            steps {
-                checkout ([ $class: 'GitSCM',
-                    branches: [[name: '*/main']], 
-                    extensions: [], 
-                    userRemoteConfigs: [[url: 'https://github.com/masterdevopsin/jenkins.git' 
-                     ]]
-                ])
-               
-                sh '''
-                    echo GIT_BRANCH: $GIT_BRANCH
-                    echo BRANCH_NAME: $BRANCH_NAME
-                '''
-            }
+        stage ('CLONE'){
+            git branch: 'main', url: 'https://github.com/masterdevopsin/java_app.git'
         }
 
-        stage('STAGE1 When branch main') {
-            when {
-                expression {
-                    return env.GIT_BRANCH == 'origin/main'
-                }
-            }
-            steps {
-                echo "This is stage1 running"
-                sh ''' 
-                    pwd
-                    ls -lrt
-                    sleep 5
-                '''
-            }
-        }
-
-        stage('when environment') {
-            when {
-                environment name: 'CURRENT_ENV', value: 'prod'
-            }
-            steps {
-                echo "This is FINAL running"
-                sh '''
-                    pwd
-                    ls -lrt
-                    sleep 5
-                '''
-            }
-        }
-
-        stage('when parameter') {
-            when {
-                expression { params.DEPLOY == true }
-            }
-            steps {
-                echo "This is FINAL running"
-                sh 'sleep 5'
-            }
-        }
     }
 }
