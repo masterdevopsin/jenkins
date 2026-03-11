@@ -5,6 +5,10 @@ pipeline {
         disableConcurrentBuilds(abortPrevious: true)
     }
 
+    environment {
+        APP_DIR = "calculator_app"
+    }
+
     stages {
         stage ('CLONE'){
             steps {
@@ -14,18 +18,20 @@ pipeline {
 
         stage (' VALIDATE'){
             steps {
-                sh '''
-                    cd calculator_app
-                    mvn validate
-                '''
-                echo "validate success"
+                dir("${APP_DIR}"){
+                    echo ${APP_DIR}
+                    sh ' mvn validate'
+                    echo "validate success"
+                }
             }
         }
         stage (' COMPILE') {
             steps {
-                sh '''
-                    mvn compile
-                '''
+                 dir("${APP_DIR}"){
+                    echo ${APP_DIR}
+                    sh ' mvn compile'
+                    echo "compile success"
+                }
             }
         }
     }
