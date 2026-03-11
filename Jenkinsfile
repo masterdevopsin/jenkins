@@ -10,37 +10,32 @@ pipeline {
     }
 
     stages {
-        stage ('CLONE'){
+        stage ('CLONE') {
             steps {
             git branch: 'main', url: 'https://github.com/masterdevopsin/java_app.git'
             }
         }
 
-        stage (' VALIDATE'){
+        stage ('VALIDATE') {
             steps {
                 dir("${APP_DIR}"){
-                    echo "${APP_DIR}"
                     sh ' mvn validate'
-                    echo "validate success"
                 }
             }
         }
-        stage (' COMPILE') {
+        stage ('COMPILE') {
             steps {
                  dir("${APP_DIR}"){
-                    echo "${APP_DIR}"
                     sh ' mvn compile'
-                    echo "compile success"
                 }
             }
         }
-        stage (' TEST ') {
+        stage ('TEST') {
             steps {
                  dir("${APP_DIR}"){
-                    echo "${APP_DIR}"
                     sh ' mvn test'
-                    echo "test success"
                 }
+                junit '**/target/surefire-reports/*.xml' 
             }
         }
     }
