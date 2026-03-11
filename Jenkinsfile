@@ -21,5 +21,12 @@ pipeline {
                 echo "validate success"
             }
         }
+        stage (' COMPILE') {
+            steps {
+                sh '''
+                    mvn compile
+                '''
+            }
+        }
     }
 }
