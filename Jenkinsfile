@@ -19,7 +19,7 @@ pipeline {
         stage (' VALIDATE'){
             steps {
                 dir("${APP_DIR}"){
-                    echo ${APP_DIR}
+                    echo "${APP_DIR}"
                     sh ' mvn validate'
                     echo "validate success"
                 }
@@ -28,7 +28,7 @@ pipeline {
         stage (' COMPILE') {
             steps {
                  dir("${APP_DIR}"){
-                    echo ${APP_DIR}
+                    echo "${APP_DIR}"
                     sh ' mvn compile'
                     echo "compile success"
                 }
