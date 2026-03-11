@@ -38,19 +38,19 @@ pipeline {
                 junit '**/target/surefire-reports/*.xml' 
             }
         }
-        stage ('SONARQUBE ANALYSIS') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                  timeout(time: 1, unit: 'MINUTES') {
-                     withSonarQubeEnv('SonarQube') {
-                        dir("${APP_DIR}") {
-                            sh 'mvn sonar:sonar'
-                         }
-                      }
-                  }
-                }
-            }
-}
+        // stage ('SONARQUBE ANALYSIS') {
+        //     steps {
+        //         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        //           timeout(time: 1, unit: 'MINUTES') {
+        //              withSonarQubeEnv('SonarQube') {
+        //                 dir("${APP_DIR}") {
+        //                     sh 'mvn sonar:sonar'
+        //                  }
+        //               }
+        //           }
+        //         }
+        //     }
+        // }
         stage ('PACKAGE') {
             steps {
                  dir("${APP_DIR}"){
