@@ -38,7 +38,7 @@ pipeline {
                 junit '**/target/surefire-reports/*.xml' 
             }
         }
-        tage ('PACKAGE') {
+        stage ('PACKAGE') {
             steps {
                  dir("${APP_DIR}"){
                     sh ' mvn package'
