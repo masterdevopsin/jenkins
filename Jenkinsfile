@@ -38,6 +38,15 @@ pipeline {
                 junit '**/target/surefire-reports/*.xml' 
             }
         }
+        stage ('SONARQUBE ANALYSIS') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    dir("${APP_DIR}") {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
         stage ('PACKAGE') {
             steps {
                  dir("${APP_DIR}"){
