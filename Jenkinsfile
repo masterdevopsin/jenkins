@@ -34,5 +34,14 @@ pipeline {
                 }
             }
         }
+        stage (' TEST ') {
+            steps {
+                 dir("${APP_DIR}"){
+                    echo "${APP_DIR}"
+                    sh ' mvn test'
+                    echo "test success"
+                }
+            }
+        }
     }
 }
