@@ -14,7 +14,10 @@ pipeline {
 
         stage (' VALIDATE'){
             steps {
-                sh 'mvn validate'
+                sh '''
+                    cd calculator_app
+                    mvn validate
+                '''
                 echo "validate success"
             }
         }
